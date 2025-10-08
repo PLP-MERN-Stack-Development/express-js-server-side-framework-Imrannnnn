@@ -1,62 +1,155 @@
-# Express.js RESTful API Assignment
+# Express.js Product API
 
-This assignment focuses on building a RESTful API using Express.js, implementing proper routing, middleware, and error handling.
+A RESTful API for managing products, built with Express.js. Features CRUD operations, middleware, error handling, filtering, pagination, and search.
 
-## Assignment Overview
+---
 
-You will:
-1. Set up an Express.js server
-2. Create RESTful API routes for a product resource
-3. Implement custom middleware for logging, authentication, and validation
-4. Add comprehensive error handling
-5. Develop advanced features like filtering, pagination, and search
+## 🚀 Getting Started
 
-## Getting Started
+### Prerequisites
 
-1. Accept the GitHub Classroom assignment invitation
-2. Clone your personal repository that was created by GitHub Classroom
-3. Install dependencies:
+- Node.js v18 or higher
+- npm
+- (Optional) MongoDB if using a database
+
+### Installation
+
+1. Clone your repository:
+   ```sh
+   git clone <your-repo-url>
+   cd express-js-server-side-framework-Imrannnnn
    ```
+2. Install dependencies:
+   ```sh
    npm install
    ```
-4. Run the server:
-   ```
-   npm start
-   ```
+3. Copy `.env.example` to `.env` and fill in your environment variables.
 
-## Files Included
+### Running the Server
 
-- `Week2-Assignment.md`: Detailed assignment instructions
-- `server.js`: Starter Express.js server file
-- `.env.example`: Example environment variables file
+```sh
+npm start
+```
+Server runs at `http://localhost:3000` by default.
 
-## Requirements
+---
 
-- Node.js (v18 or higher)
-- npm or yarn
-- Postman, Insomnia, or curl for API testing
+## 🛠️ Environment Variables
 
-## API Endpoints
+Create a `.env` file based on `.env.example`:
 
-The API will have the following endpoints:
+```
+PORT=3000
+MONGODB_URI=mongodb://localhost:27017/productsdb
+API_KEY=mysecretkey123
+```
 
-- `GET /api/products`: Get all products
-- `GET /api/products/:id`: Get a specific product
-- `POST /api/products`: Create a new product
-- `PUT /api/products/:id`: Update a product
-- `DELETE /api/products/:id`: Delete a product
+---
 
-## Submission
+## 📦 API Endpoints
 
-Your work will be automatically submitted when you push to your GitHub Classroom repository. Make sure to:
+All endpoints require the header:  
+`x-api-key: <your-api-key>`
 
-1. Complete all the required API endpoints
-2. Implement the middleware and error handling
-3. Document your API in the README.md
-4. Include examples of requests and responses
+### Product CRUD
 
-## Resources
+- **GET /api/products**  
+  List all products. Supports `category`, `page`, and `limit` query parameters.
+
+- **GET /api/products/:id**  
+  Get a product by its ID.
+
+- **POST /api/products**  
+  Create a new product.  
+  **Body:**
+  ```json
+  {
+    "name": "Laptop",
+    "description": "High-performance laptop",
+    "price": 1200,
+    "category": "electronics",
+    "inStock": true
+  }
+  ```
+
+- **PUT /api/products/:id**  
+  Update a product by ID.
+
+- **DELETE /api/products/:id**  
+  Delete a product by ID.
+
+### Advanced Features
+
+- **GET /api/products/search/by-name?name=term**  
+  Search products by name.
+
+- **GET /api/products/stats/by-category**  
+  Get product count grouped by category.
+
+---
+
+## 🧪 Example Requests
+
+**Create a Product**
+```sh
+curl -X POST http://localhost:3000/api/products \
+  -H "Content-Type: application/json" \
+  -H "x-api-key: mysecretkey123" \
+  -d '{"name":"Laptop","description":"High-performance laptop","price":1200,"category":"electronics","inStock":true}'
+```
+
+**Get All Products (with pagination)**
+```sh
+curl -X GET "http://localhost:3000/api/products?page=1&limit=10" \
+  -H "x-api-key: mysecretkey123"
+```
+
+**Search by Name**
+```sh
+curl -X GET "http://localhost:3000/api/products/search/by-name?name=laptop" \
+  -H "x-api-key: mysecretkey123"
+```
+
+---
+
+## 🧩 Project Structure
+
+```
+server.js
+.env.example
+README.md
+src/
+  config/db.js
+  customErrors.js
+  middleware/
+    auth.js
+    errorHandler.js
+    logger.js
+    validateProduct.js
+  models/
+    product.js
+  routes/
+    productRoutes.js
+```
+
+---
+
+## 🛡️ Middleware
+
+- **Logger:** Logs request method, URL, and timestamp.
+- **Authentication:** Checks for valid API key.
+- **Validation:** Validates product data.
+- **Error Handling:** Handles errors and sends appropriate responses.
+
+---
+
+## 📚 Resources
 
 - [Express.js Documentation](https://expressjs.com/)
-- [RESTful API Design Best Practices](https://restfulapi.net/)
-- [HTTP Status Codes](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) 
+- [RESTful API Design](https://restfulapi.net/)
+
+---
+
+## 📝 License
+
+ISC

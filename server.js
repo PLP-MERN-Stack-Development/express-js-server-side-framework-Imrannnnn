@@ -2,8 +2,15 @@
 
 // Import required modules
 const express = require('express');
+const mongoose = require("mongoose")
 const bodyParser = require('body-parser');
 const { v4: uuidv4 } = require('uuid');
+require('dotenv').config();
+const connectDB = require('./src/config/db');
+const productRoutes = require('./src/routes/productRoutes');
+
+// Connect to MongoDB
+connectDB();
 
 // Initialize Express app
 const app = express();
@@ -45,17 +52,12 @@ app.get('/', (req, res) => {
   res.send('Welcome to the Product API! Go to /api/products to see all products.');
 });
 
-// TODO: Implement the following routes:
-// GET /api/products - Get all products
-// GET /api/products/:id - Get a specific product
-// POST /api/products - Create a new product
-// PUT /api/products/:id - Update a product
-// DELETE /api/products/:id - Delete a product
-
-// Example route implementation for GET /api/products
+// Product routes
 app.get('/api/products', (req, res) => {
   res.json(products);
 });
+
+app.use('/api/products', productRoutes);
 
 // TODO: Implement custom middleware for:
 // - Request logging
